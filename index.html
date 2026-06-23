@@ -1,1 +1,1699 @@
-.
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DOCX Ledger · Ukubona LLC · All Accounts</title>
+<meta property="og:title" content="DOCX Ledger · Ukubona LLC · All GitHub Accounts"/>
+<meta property="og:description" content="Searchable ledger of all .docx files across 11 GitHub accounts — ukubona-llc, jhurepos, abikesa, muzaale, jhustata, pairs-jh, jhufena, eplnm, ukb-pyro, cryo-pyro, ukb-dt. Append-only. Non-lossy."/>
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico"/>
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme:light)"/>
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image"/>
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,300&family=JetBrains+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── TOKENS ────────────────────────────────────────────── */
+:root {
+  --ink:   #0e0e10;
+  --ink1:  #1a1a1e;
+  --ink2:  #242428;
+  --ink3:  #2e2e34;
+  --smoke: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.07);
+  --rim:   rgba(255,255,255,0.09);
+  --rim2:  rgba(255,255,255,0.16);
+  --dim:   #6b6b74;
+  --mid:   #9a9aa5;
+  --bright:#e8e8f0;
+  --white: #f6f6f8;
+  --gold:  #c8901a;
+  --goldb: rgba(200,144,26,0.18);
+  --rose:  #c0516a;
+  --roseb: rgba(192,81,106,0.15);
+  --teal:  #1ea07a;
+  --tealb: rgba(30,160,122,0.14);
+  --violet:#8b80e8;
+  --violetb:rgba(139,128,232,0.14);
+  --coral: #d85a30;
+  --coralb:rgba(216,90,48,0.14);
+  --sage:  #5c8c6a;
+  --sageb: rgba(92,140,106,0.13);
+  --amber: #c07820;
+  --amberb:rgba(192,120,32,0.14);
+  --slate: #4a6888;
+  --slateb:rgba(74,104,136,0.14);
+  --fern:  #5a8050;
+  --fernb: rgba(90,128,80,0.14);
+  --mauve: #8a5898;
+  --mauveb:rgba(138,88,152,0.14);
+  --cyan:  #1890a8;
+  --cyanb: rgba(24,144,168,0.14);
+  --sans:  'Inter', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+  --mono:  'JetBrains Mono', 'Fira Mono', monospace;
+  --max:   1200px;
+  --r:     6px;
+  --rl:    12px;
+}
+[data-theme="light"] {
+  --ink:   #f4f2ee;
+  --ink1:  #ffffff;
+  --ink2:  #edeae3;
+  --ink3:  #e4e0d6;
+  --smoke: rgba(0,0,0,0.03);
+  --glass: rgba(0,0,0,0.05);
+  --rim:   rgba(0,0,0,0.08);
+  --rim2:  rgba(0,0,0,0.18);
+  --dim:   #9a9590;
+  --mid:   #6a6560;
+  --bright:#28261e;
+  --white: #18160e;
+  --gold:  #7a520a;
+  --goldb: rgba(122,82,10,0.10);
+  --rose:  #923148;
+  --roseb: rgba(146,49,72,0.10);
+  --teal:  #127a58;
+  --tealb: rgba(18,122,88,0.10);
+  --violet:#534ab7;
+  --violetb:rgba(83,74,183,0.10);
+  --coral: #993c1d;
+  --coralb:rgba(153,60,29,0.10);
+  --sage:  #3a6a4a;
+  --sageb: rgba(58,106,74,0.10);
+  --amber: #854f0b;
+  --amberb:rgba(133,79,11,0.10);
+  --slate: #2a4866;
+  --slateb:rgba(42,72,102,0.10);
+  --fern:  #3a6030;
+  --fernb: rgba(58,96,48,0.10);
+  --mauve: #6a3878;
+  --mauveb:rgba(106,56,120,0.10);
+  --cyan:  #0870a0;
+  --cyanb: rgba(8,112,160,0.10);
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{
+  font-family:var(--sans);
+  background:var(--ink);
+  color:var(--bright);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s,color .3s;
+}
+a{color:var(--violet);text-decoration:none}
+a:hover{text-decoration:underline;opacity:.85}
+::selection{background:var(--violetb);color:var(--white)}
+
+/* ── NAV ────────────────────────────────────────────────── */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(14,14,16,0.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--rim);
+  transition:background .3s;
+}
+[data-theme="light"] .nav{background:rgba(244,242,238,0.92)}
+.nav-inner{
+  max-width:var(--max);margin:0 auto;padding:0 1.5rem;
+  height:52px;display:flex;align-items:center;gap:.85rem;
+}
+.logo-wrap{
+  width:28px;height:28px;flex-shrink:0;position:relative;cursor:pointer;
+}
+.logo-wrap img{
+  width:100%;height:100%;object-fit:contain;
+  position:absolute;top:0;left:0;
+  transition:opacity .4s;
+  animation:spin 90s linear infinite;
+}
+.logo-dark{opacity:1}
+.logo-light{opacity:0}
+[data-theme="light"] .logo-dark{opacity:0}
+[data-theme="light"] .logo-light{opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.logo-wrap img{animation:none}}
+.nav-brand{
+  font-family:var(--serif);font-size:.92rem;color:var(--white);
+  flex:1;letter-spacing:-.01em;
+}
+.nav-sub{
+  font-family:var(--mono);font-size:.52rem;color:var(--dim);
+  letter-spacing:.06em;margin-left:.4rem;
+}
+.theme-btn{
+  background:var(--ink2);border:1px solid var(--rim2);
+  border-radius:20px;padding:.22rem .7rem;
+  font-family:var(--mono);font-size:.55rem;color:var(--mid);
+  cursor:pointer;letter-spacing:.06em;
+  transition:background .2s,color .2s;flex-shrink:0;
+}
+.theme-btn:hover{background:var(--ink3);color:var(--bright)}
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero{
+  max-width:var(--max);margin:0 auto;
+  padding:3rem 1.5rem 2rem;
+  border-bottom:1px solid var(--rim);
+}
+.eyebrow{
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.75rem;
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(2rem,5vw,3.6rem);
+  line-height:1.06;letter-spacing:-.025em;
+  color:var(--white);margin-bottom:.75rem;
+}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-lede{
+  font-size:.875rem;color:var(--mid);max-width:62ch;
+  line-height:1.78;margin-bottom:1.5rem;
+}
+.hero-stats{
+  display:flex;flex-wrap:wrap;gap:.5rem .75rem;
+  font-family:var(--mono);font-size:.56rem;color:var(--dim);
+  letter-spacing:.07em;
+}
+.stat-chip{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:var(--ink2);border:1px solid var(--rim);
+  border-radius:20px;padding:.18rem .6rem;
+}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* ── SEARCH BAR ─────────────────────────────────────────── */
+.search-wrap{
+  max-width:var(--max);margin:0 auto;
+  padding:1.5rem 1.5rem .5rem;
+}
+.search-row{
+  display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;
+}
+.search-box{
+  flex:1;min-width:220px;
+  background:var(--ink2);border:1px solid var(--rim2);
+  border-radius:var(--r);padding:.6rem 1rem .6rem 2.6rem;
+  font-family:var(--mono);font-size:.75rem;color:var(--bright);
+  transition:border-color .2s,box-shadow .2s;
+  outline:none;position:relative;
+}
+.search-box:focus{border-color:var(--violet);box-shadow:0 0 0 3px var(--violetb)}
+.search-box::placeholder{color:var(--dim)}
+.search-field-wrap{position:relative;flex:1;min-width:220px}
+.search-icon{
+  position:absolute;left:.85rem;top:50%;transform:translateY(-50%);
+  color:var(--dim);font-size:.85rem;pointer-events:none;
+}
+.filter-row{
+  display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;
+  padding:.75rem 0;
+  font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;
+}
+.filter-label{color:var(--dim);margin-right:.25rem}
+.filter-btn{
+  background:var(--ink2);border:1px solid var(--rim);
+  border-radius:20px;padding:.2rem .65rem;
+  cursor:pointer;color:var(--mid);
+  transition:all .15s;white-space:nowrap;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:var(--rim2);color:var(--bright);
+  background:var(--ink3);
+}
+.filter-btn.active{
+  background:var(--violetb);border-color:var(--violet);color:var(--violet);
+}
+.results-count{
+  margin-left:auto;font-family:var(--mono);font-size:.56rem;
+  color:var(--dim);letter-spacing:.06em;white-space:nowrap;
+}
+
+/* ── TABLE ──────────────────────────────────────────────── */
+.table-wrap{
+  max-width:var(--max);margin:0 auto;
+  padding:0 1.5rem 4rem;
+  overflow-x:auto;
+}
+table{
+  width:100%;border-collapse:collapse;
+  font-family:var(--mono);font-size:.7rem;
+}
+thead tr{border-bottom:2px solid var(--rim2)}
+thead th{
+  text-align:left;padding:.65rem .75rem;
+  color:var(--dim);font-weight:500;letter-spacing:.09em;
+  text-transform:uppercase;font-size:.56rem;
+  white-space:nowrap;cursor:pointer;user-select:none;
+}
+thead th:hover{color:var(--mid)}
+thead th .sort-icon{margin-left:.3rem;opacity:.4}
+thead th.sorted .sort-icon{opacity:1;color:var(--violet)}
+tbody tr{
+  border-bottom:1px solid var(--rim);
+  transition:background .12s;
+}
+tbody tr:hover{background:var(--smoke)}
+tbody tr.hidden{display:none}
+td{
+  padding:.5rem .75rem;vertical-align:top;
+  color:var(--mid);line-height:1.55;
+}
+td.td-account{color:var(--bright);font-weight:500}
+td.td-repo a{color:var(--violet)}
+td.td-repo a:hover{text-decoration:underline}
+td.td-file{max-width:320px;word-break:break-all;color:var(--bright);font-size:.65rem}
+td.td-size{text-align:right;white-space:nowrap;color:var(--dim)}
+td.td-age{white-space:nowrap}
+td.td-vis{}
+.vis-badge{
+  display:inline-block;font-size:.52rem;letter-spacing:.07em;
+  text-transform:uppercase;padding:.12rem .45rem;border-radius:20px;
+  font-weight:500;
+}
+.vis-pub{background:var(--tealb);border:1px solid var(--teal);color:var(--teal)}
+.vis-priv{background:var(--roseb);border:1px solid var(--rose);color:var(--rose)}
+
+/* account accent bars */
+tr[data-account="ukubona-llc"] td:first-child{border-left:3px solid var(--violet)}
+tr[data-account="jhurepos"]     td:first-child{border-left:3px solid var(--gold)}
+tr[data-account="abikesa"]      td:first-child{border-left:3px solid var(--coral)}
+tr[data-account="muzaale"]      td:first-child{border-left:3px solid var(--teal)}
+tr[data-account="jhustata"]     td:first-child{border-left:3px solid var(--sage)}
+tr[data-account="pairs-jh"]     td:first-child{border-left:3px solid var(--amber)}
+tr[data-account="jhufena"]      td:first-child{border-left:3px solid var(--slate)}
+tr[data-account="eplnm"]        td:first-child{border-left:3px solid var(--fern)}
+tr[data-account="ukb-pyro"]     td:first-child{border-left:3px solid var(--mauve)}
+tr[data-account="cryo-pyro"]    td:first-child{border-left:3px solid var(--cyan)}
+tr[data-account="ukb-dt"]       td:first-child{border-left:3px solid var(--rose)}
+
+/* account filter pill colors */
+.pill-ukubona-llc{--pc:var(--violet);--pb:var(--violetb)}
+.pill-jhurepos   {--pc:var(--gold);  --pb:var(--goldb)}
+.pill-abikesa    {--pc:var(--coral); --pb:var(--coralb)}
+.pill-muzaale    {--pc:var(--teal);  --pb:var(--tealb)}
+.pill-jhustata   {--pc:var(--sage);  --pb:var(--sageb)}
+.pill-pairs-jh   {--pc:var(--amber); --pb:var(--amberb)}
+.pill-jhufena    {--pc:var(--slate); --pb:var(--slateb)}
+.pill-eplnm      {--pc:var(--fern);  --pb:var(--fernb)}
+.pill-ukb-pyro   {--pc:var(--mauve); --pb:var(--mauveb)}
+.pill-cryo-pyro  {--pc:var(--cyan);  --pb:var(--cyanb)}
+.pill-ukb-dt     {--pc:var(--rose);  --pb:var(--roseb)}
+
+.filter-btn.active[data-account]{
+  background:var(--pb);border-color:var(--pc);color:var(--pc);
+}
+
+/* ── EMPTY STATE ────────────────────────────────────────── */
+.empty-state{
+  padding:4rem 1.5rem;text-align:center;
+  font-family:var(--mono);font-size:.75rem;color:var(--dim);
+}
+.empty-state span{display:block;font-size:2rem;margin-bottom:.75rem;opacity:.3}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--rim);
+  padding:2rem 0 3rem;
+}
+.footer-inner{
+  max-width:var(--max);margin:0 auto;padding:0 1.5rem;
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap:2rem;flex-wrap:wrap;
+}
+.footer-mark{
+  font-family:var(--mono);font-size:.56rem;
+  color:var(--dim);line-height:2;letter-spacing:.04em;
+}
+.footer-mark span{color:var(--mid)}
+.footer-legend{
+  font-family:var(--mono);font-size:.56rem;
+  color:var(--dim);line-height:2.1;
+  display:flex;flex-direction:column;gap:.15rem;
+}
+.leg-item{display:flex;align-items:center;gap:.5rem}
+.leg-dot{
+  width:8px;height:8px;border-radius:2px;flex-shrink:0;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:700px){
+  .hero-title{font-size:2rem}
+  td.td-file{max-width:180px}
+  .nav-sub{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Site navigation">
+  <div class="nav-inner">
+    <div class="logo-wrap" aria-hidden="true">
+      <img class="logo-dark"  src="https://abikesa.github.io/logos/assets/ukubona-dark.png"  alt=""/>
+      <img class="logo-light" src="https://abikesa.github.io/logos/assets/ukubona-light.png" alt=""/>
+    </div>
+    <div class="nav-brand">Ukubona <span class="nav-sub">· DOCX Ledger · 11 Accounts · Append-only · Non-lossy</span></div>
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle color theme">light</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="eyebrow">Ukubona LLC · GitHub DOCX Registry · 23 Jun 2026 · All Accounts · State<sub>t</sub> = Σ Event<sub>i</sub></p>
+  <h1 class="hero-title">Every <em>.docx</em><br>in the ledger.</h1>
+  <p class="hero-lede">Searchable inventory of all Word documents across 11 GitHub accounts — spanning K08 research archives, clinical twin manuscripts, Ministry of Education deliverables, living kidney donation manuscripts, and administrative infrastructure. Sequential. Consequential. Nothing overwritten.</p>
+  <div class="hero-stats">
+    <span class="stat-chip"><span class="dot" style="background:var(--violet)"></span>11 accounts</span>
+    <span class="stat-chip"><span class="dot" style="background:var(--gold)"></span>126 files</span>
+    <span class="stat-chip"><span class="dot" style="background:var(--teal)"></span>ukubona-llc · 24 files</span>
+    <span class="stat-chip"><span class="dot" style="background:var(--coral)"></span>abikesa · 668 scanned</span>
+    <span class="stat-chip"><span class="dot" style="background:var(--rose)"></span>ukb-dt · 719 repos</span>
+    <span class="stat-chip">okubala si kulaba · okulaba kulina okutambula</span>
+  </div>
+</header>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-row">
+    <div class="search-field-wrap">
+      <span class="search-icon">⌕</span>
+      <input
+        class="search-box"
+        id="search"
+        type="text"
+        placeholder="Search repo, file, account, path…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <span class="results-count" id="results-count">— / — rows</span>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">account:</span>
+    <button class="filter-btn active" data-account="all">all</button>
+    <button class="filter-btn pill-ukubona-llc" data-account="ukubona-llc">ukubona-llc</button>
+    <button class="filter-btn pill-jhurepos"    data-account="jhurepos">jhurepos</button>
+    <button class="filter-btn pill-abikesa"     data-account="abikesa">abikesa</button>
+    <button class="filter-btn pill-muzaale"     data-account="muzaale">muzaale</button>
+    <button class="filter-btn pill-jhustata"    data-account="jhustata">jhustata</button>
+    <button class="filter-btn pill-pairs-jh"    data-account="pairs-jh">pairs-jh</button>
+    <button class="filter-btn pill-jhufena"     data-account="jhufena">jhufena</button>
+    <button class="filter-btn pill-eplnm"       data-account="eplnm">eplnm</button>
+    <button class="filter-btn pill-ukb-pyro"    data-account="ukb-pyro">ukb-pyro</button>
+    <button class="filter-btn pill-cryo-pyro"   data-account="cryo-pyro">cryo-pyro</button>
+    <button class="filter-btn pill-ukb-dt"      data-account="ukb-dt">ukb-dt</button>
+    <span class="filter-label" style="margin-left:.5rem">visibility:</span>
+    <button class="filter-btn" data-vis="all">all</button>
+    <button class="filter-btn" data-vis="public">public</button>
+    <button class="filter-btn" data-vis="private">private</button>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <table id="ledger-table">
+    <thead>
+      <tr>
+        <th data-col="account">Account <span class="sort-icon">↕</span></th>
+        <th data-col="repo">Repo <span class="sort-icon">↕</span></th>
+        <th data-col="file">File Path <span class="sort-icon">↕</span></th>
+        <th data-col="size">Size <span class="sort-icon">↕</span></th>
+        <th data-col="age">Modified <span class="sort-icon">↕</span></th>
+        <th data-col="vis">Visibility <span class="sort-icon">↕</span></th>
+      </tr>
+    </thead>
+    <tbody id="ledger-body">
+
+<!-- ══════════════════════════════════════════
+     1. ukubona-llc  (24 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc ministry-of-education invoice/UKB-2026-001-Invoice.docx 15.4 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/ministry-of-education" target="_blank">ministry-of-education</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/ministry-of-education/blob/ukhona/invoice/UKB-2026-001-Invoice.docx" target="_blank">invoice/UKB-2026-001-Invoice.docx</a></td>
+  <td class="td-size">15.4 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc ministry-of-education invoice/UKB-2026-R001-Retainer-Proposal.docx 15.8 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/ministry-of-education" target="_blank">ministry-of-education</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/ministry-of-education/blob/ukhona/invoice/UKB-2026-R001-Retainer-Proposal.docx" target="_blank">invoice/UKB-2026-R001-Retainer-Proposal.docx</a></td>
+  <td class="td-size">15.8 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc ministry-of-education tmves/Ukubona_Voices_Synthesis.docx 20.3 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/ministry-of-education" target="_blank">ministry-of-education</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/ministry-of-education/blob/ukhona/tmves/Ukubona_Voices_Synthesis.docx" target="_blank">tmves/Ukubona_Voices_Synthesis.docx</a></td>
+  <td class="td-size">20.3 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc music ukhona/docx/ukubona_curriculum.docx 21.9 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/music" target="_blank">music</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/music/blob/ukhona/ukhona/docx/ukubona_curriculum.docx" target="_blank">ukhona/docx/ukubona_curriculum.docx</a></td>
+  <td class="td-size">21.9 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc ucu ukhona/Concept note_AI_IBBS_PWUS_Bonny.docx 29.6 2mo public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/ucu" target="_blank">ucu</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/ucu/blob/ukhona/ukhona/Concept%20note_AI_IBBS_PWUS_Bonny.docx" target="_blank">ukhona/Concept note_AI_IBBS_PWUS_Bonny.docx</a></td>
+  <td class="td-size">29.6 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc mato tmves/Ukubona_Voices_Synthesis.docx 20.3 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/mato" target="_blank">mato</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/mato/blob/ukhona/tmves/Ukubona_Voices_Synthesis.docx" target="_blank">tmves/Ukubona_Voices_Synthesis.docx</a></td>
+  <td class="td-size">20.3 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc nyu ukhona/jdm_lkdcod_v7.docx 1789.8 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/nyu" target="_blank">nyu</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/nyu/blob/ukhona/ukhona/jdm_lkdcod_v7.docx" target="_blank">ukhona/jdm_lkdcod_v7.docx</a></td>
+  <td class="td-size">1,789.8 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc nyu ukhona/jdm_lkdcod_v7_Abi.docx 1797.2 2mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/nyu" target="_blank">nyu</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/nyu/blob/ukhona/ukhona/jdm_lkdcod_v7_Abi.docx" target="_blank">ukhona/jdm_lkdcod_v7_Abi.docx</a></td>
+  <td class="td-size">1,797.2 KB</td>
+  <td class="td-age">2mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc constitution ukhona/UKB-SIB-GAP_Constitution.docx 31.8 3mo public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/constitution" target="_blank">constitution</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/constitution/blob/ukhona/ukhona/UKB-SIB-GAP_Constitution.docx" target="_blank">ukhona/UKB-SIB-GAP_Constitution.docx</a></td>
+  <td class="td-size">31.8 KB</td>
+  <td class="td-age">3mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc constitution ukhona/ukubona-rare-impact-proposal.docx 22.3 3mo public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/constitution" target="_blank">constitution</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/constitution/blob/ukhona/ukhona/ukubona-rare-impact-proposal.docx" target="_blank">ukhona/ukubona-rare-impact-proposal.docx</a></td>
+  <td class="td-size">22.3 KB</td>
+  <td class="td-age">3mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc landscape ukhona/docs/Meeting Minutes-PROJECT Mapping Disease Prevalence in Uganda-9 Feb 26.docx 17.2 3mo public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/landscape" target="_blank">landscape</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/landscape/blob/ukhona/ukhona/docs/Meeting%20Minutes-PROJECT%20%20Mapping%20Disease%20Prevalence%20in%20Uganda-9%20Feb%2026%20%281%29.docx" target="_blank">ukhona/docs/Meeting Minutes — Mapping Disease Prevalence in Uganda · 9 Feb 26.docx</a></td>
+  <td class="td-size">17.2 KB</td>
+  <td class="td-age">3mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc strata-stone ukhona/digital twin.docx 18.8 4mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/strata-stone" target="_blank">strata-stone</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/strata-stone/blob/ukhona/ukhona/digital%20twin.docx" target="_blank">ukhona/digital twin.docx</a></td>
+  <td class="td-size">18.8 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc brenda image.docx 87.4 11mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/brenda" target="_blank">brenda</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/brenda/blob/main/image.docx" target="_blank">image.docx</a></td>
+  <td class="td-size">87.4 KB</td>
+  <td class="td-age">11mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc brenda unicef.docx 26.2 11mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/brenda" target="_blank">brenda</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/brenda/blob/main/unicef.docx" target="_blank">unicef.docx</a></td>
+  <td class="td-size">26.2 KB</td>
+  <td class="td-age">11mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc emergent Outputs and Activities.docx 26.2 11mo private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/emergent" target="_blank">emergent</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/emergent/blob/main/Outputs%20and%20Activities.docx" target="_blank">Outputs and Activities.docx</a></td>
+  <td class="td-size">26.2 KB</td>
+  <td class="td-age">11mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="private" data-raw="ukubona-llc branding branding/ukubona_offer.docx 1528.3 1yr private">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/branding" target="_blank">branding</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/branding/blob/main/branding/ukubona_offer.docx" target="_blank">branding/ukubona_offer.docx</a></td>
+  <td class="td-size">1,528.3 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/_build/html/figures eco-green.docx 0.2 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/_build/html/figures/~%24o%20Green%20Fertilizer_Literature%20Review_Concept%20Note_2025.docx" target="_blank">kitabo/ensi/_build/html/figures/~$o Green Fertilizer_LR_Concept Note_2025.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/_build/html/pdfs/eco-green-l.docx 18.5 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/_build/html/pdfs/eco-green-l.docx" target="_blank">kitabo/ensi/_build/html/pdfs/eco-green-l.docx</a></td>
+  <td class="td-size">18.5 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/_build/html/pdfs/eco-green-p.docx 221.4 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/_build/html/pdfs/eco-green-p.docx" target="_blank">kitabo/ensi/_build/html/pdfs/eco-green-p.docx</a></td>
+  <td class="td-size">221.4 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/_build/html/pdfs/offer-letter.docx 1363.0 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/_build/html/pdfs/offer-letter.docx" target="_blank">kitabo/ensi/_build/html/pdfs/offer-letter.docx</a></td>
+  <td class="td-size">1,363.0 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/figures eco-green.docx 0.2 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/figures/~%24o%20Green%20Fertilizer_Literature%20Review_Concept%20Note_2025.docx" target="_blank">kitabo/ensi/figures/~$o Green Fertilizer_LR_Concept Note_2025.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/pdfs/eco-green-l.docx 18.5 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/pdfs/eco-green-l.docx" target="_blank">kitabo/ensi/pdfs/eco-green-l.docx</a></td>
+  <td class="td-size">18.5 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/pdfs/eco-green-p.docx 221.4 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/pdfs/eco-green-p.docx" target="_blank">kitabo/ensi/pdfs/eco-green-p.docx</a></td>
+  <td class="td-size">221.4 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukubona-llc" data-vis="public" data-raw="ukubona-llc home kitabo/ensi/pdfs/offer-letter.docx 1363.0 1yr public">
+  <td class="td-account">ukubona-llc</td>
+  <td class="td-repo"><a href="https://github.com/ukubona-llc/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/ukubona-llc/home/blob/main/kitabo/ensi/pdfs/offer-letter.docx" target="_blank">kitabo/ensi/pdfs/offer-letter.docx</a></td>
+  <td class="td-size">1,363.0 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     2. jhurepos  (27 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos rdc application/Muzaale_2123.docx 368.8 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/rdc" target="_blank">rdc</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/rdc/blob/main/application/Muzaale_2123.docx" target="_blank">application/Muzaale_2123.docx</a></td>
+  <td class="td-size">368.8 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos rdc submit/Muzaale_2123.docx 356.9 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/rdc" target="_blank">rdc</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/rdc/blob/main/submit/Muzaale_2123.docx" target="_blank">submit/Muzaale_2123.docx</a></td>
+  <td class="td-size">356.9 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos rdc visits/visit1/Work Note.docx 516.2 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/rdc" target="_blank">rdc</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/rdc/blob/main/visits/visit1/Work%20Note.docx" target="_blank">visits/visit1/Work Note.docx</a></td>
+  <td class="td-size">516.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectalpha seasons_projectalpha_0/seasons.docx 660.8 1yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectalpha" target="_blank">projectalpha</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectalpha/blob/main/seasons_projectalpha_0/seasons.docx" target="_blank">seasons_projectalpha_0/seasons.docx</a></td>
+  <td class="td-size">660.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectalpha seasons_projectalpha_0/seasons_abstract.docx 335.4 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectalpha" target="_blank">projectalpha</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectalpha/blob/main/seasons_projectalpha_0/seasons_abstract.docx" target="_blank">seasons_projectalpha_0/seasons_abstract.docx</a></td>
+  <td class="td-size">335.4 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectalpha seasons_projectalpha_0/seasons_response.docx 31.3 1yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectalpha" target="_blank">projectalpha</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectalpha/blob/main/seasons_projectalpha_0/seasons_response.docx" target="_blank">seasons_projectalpha_0/seasons_response.docx</a></td>
+  <td class="td-size">31.3 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectalpha seasons_projectalpha_0/~$easons.docx 0.2 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectalpha" target="_blank">projectalpha</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectalpha/blob/main/seasons_projectalpha_0/~%24easons.docx" target="_blank">seasons_projectalpha_0/~$easons.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectalpha seasons_projectalpha_3/seasons.docx 1128.3 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectalpha" target="_blank">projectalpha</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectalpha/blob/main/seasons_projectalpha_3/seasons.docx" target="_blank">seasons_projectalpha_3/seasons.docx</a></td>
+  <td class="td-size">1,128.3 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos stata Abstract.docx 20.1 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/stata" target="_blank">stata</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/stata/blob/main/Abstract.docx" target="_blank">Abstract.docx</a></td>
+  <td class="td-size">20.1 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos dsmb intro/PREVENT DSMB Report Template_Draft.docx 76.6 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/dsmb" target="_blank">dsmb</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/dsmb/blob/main/intro/PREVENT%20DSMB%20Report%20Template_Draft.docx" target="_blank">intro/PREVENT DSMB Report Template_Draft.docx</a></td>
+  <td class="td-size">76.6 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectbeta donors/motter_attribrisk_v1.docx 316.0 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectbeta" target="_blank">projectbeta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectbeta/blob/main/donors/motter_attribrisk_v1.docx" target="_blank">donors/motter_attribrisk_v1.docx</a></td>
+  <td class="td-size">316.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectbeta donors/motter_riskfactor_v2.docx 426.4 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectbeta" target="_blank">projectbeta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectbeta/blob/main/donors/motter_riskfactor_v2.docx" target="_blank">donors/motter_riskfactor_v2.docx</a></td>
+  <td class="td-size">426.4 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectbeta nh_projectbeta_0/Muzaale_2123_Revised.09.23.22.docx 367.9 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectbeta" target="_blank">projectbeta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectbeta/blob/main/nh_projectbeta_0/Muzaale_2123_Revised.09.23.22.docx" target="_blank">nh_projectbeta_0/Muzaale_2123_Revised.09.23.22.docx</a></td>
+  <td class="td-size">367.9 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos Vince-Jin cdc_visit Muzaale_2123.docx 356.9 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/Vince-Jin/cdc_visit" target="_blank">Vince-Jin/cdc_visit</a></td>
+  <td class="td-file"><a href="https://github.com/Vince-Jin/cdc_visit/blob/main/Muzaale_2123.docx" target="_blank">Muzaale_2123.docx</a></td>
+  <td class="td-size">356.9 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos Vince-Jin cdc_visit Work Info.docx 15.7 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/Vince-Jin/cdc_visit" target="_blank">Vince-Jin/cdc_visit</a></td>
+  <td class="td-file"><a href="https://github.com/Vince-Jin/cdc_visit/blob/main/Work%20Info.docx" target="_blank">Work Info.docx</a></td>
+  <td class="td-size">15.7 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos immunology immuno.docx 72.0 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/immunology" target="_blank">immunology</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/immunology/blob/main/immuno.docx" target="_blank">immuno.docx</a></td>
+  <td class="td-size">72.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos fena act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx 465.0 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/fena" target="_blank">fena</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/fena/blob/main/act0/act_0_3/act_0_3_2/WHOLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx</a></td>
+  <td class="td-size">465.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos fena act0/act_0_3/act_0_3_2/competing_risks_notes.docx 217.0 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/fena" target="_blank">fena</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/fena/blob/main/act0/act_0_3/act_0_3_2/competing_risks_notes.docx" target="_blank">act0/act_0_3/act_0_3_2/competing_risks_notes.docx</a></td>
+  <td class="td-size">217.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos fena act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01.docx 0.2 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/fena" target="_blank">fena</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/fena/blob/main/act0/act_0_3/act_0_3_2/~%24OLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos fena act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01_MGB.docx 0.2 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/fena" target="_blank">fena</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/fena/blob/main/act0/act_0_3/act_0_3_2/~%24OLE%20Hospitalization_01_MGB.docx" target="_blank">act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01_MGB.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos egfr6m manuscripts/LKD_6M_eGFR.docx 1976.3 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/egfr6m" target="_blank">egfr6m</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/egfr6m/blob/main/manuscripts/LKD_6M_eGFR.docx" target="_blank">manuscripts/LKD_6M_eGFR.docx</a></td>
+  <td class="td-size">1,976.3 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="private" data-raw="jhurepos projectgamma act_1/Hospitalization.docx 467.2 2yr private">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectgamma" target="_blank">projectgamma</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectgamma/blob/main/act_1/Hospitalization.docx" target="_blank">act_1/Hospitalization.docx</a></td>
+  <td class="td-size">467.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos projectdelta Links to nice examples.docx 13.5 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectdelta" target="_blank">projectdelta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectdelta/blob/main/act_1/act_1_0/act_1_0_0/Links%20to%20nice%20examples%20of%20online%20calculators.docx" target="_blank">act_1/act_1_0/act_1_0_0/Links to nice examples of online calculators.docx</a></td>
+  <td class="td-size">13.5 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos projectdelta Prediction equation.docx 14.2 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectdelta" target="_blank">projectdelta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectdelta/blob/main/act_1/act_1_0/act_1_0_0/Prediction%20equation.docx" target="_blank">act_1/act_1_0/act_1_0_0/Prediction equation.docx</a></td>
+  <td class="td-size">14.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos projectdelta alammary_LivingKidneyDonor_post_donation_6month_eGFR_prediction.docx 1973.2 2yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/projectdelta" target="_blank">projectdelta</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/projectdelta/blob/main/act_1/act_1_0/act_1_0_0/alammary_LivingKidneyDonor_post_donation_6month_eGFR_prediction.docx" target="_blank">act_1/act_1_0/act_1_0_0/alammary_LKD_6month_eGFR_prediction.docx</a></td>
+  <td class="td-size">1,973.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos criteria PIM Classes and Mortality_Edit_DAA_1.17.23.docx 93.9 3yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/criteria" target="_blank">criteria</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/criteria/blob/main/PIM%20Classes%20and%20Mortality_Edit_DAA_1.17.23.docx" target="_blank">PIM Classes and Mortality_Edit_DAA_1.17.23.docx</a></td>
+  <td class="td-size">93.9 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhurepos" data-vis="public" data-raw="jhurepos criteria Supplemental Material 1.17.23.docx 47.9 3yr public">
+  <td class="td-account">jhurepos</td>
+  <td class="td-repo"><a href="https://github.com/jhurepos/criteria" target="_blank">criteria</a></td>
+  <td class="td-file"><a href="https://github.com/jhurepos/criteria/blob/main/Supplemental%20Material%201.17.23.docx" target="_blank">Supplemental Material 1.17.23.docx</a></td>
+  <td class="td-size">47.9 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     3. abikesa  (selected representative files — 668 total scanned)
+     Showing substantive unique files; eco-green/ukubona_offer duplicates collapsed
+══════════════════════════════════════════ -->
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa phd graduation/ACCEPTABLE PhD THESIS.docx 17.1 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/phd" target="_blank">phd</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/phd/blob/main/graduation/ACCEPTABLE%20PhD%20THESIS.docx" target="_blank">graduation/ACCEPTABLE PhD THESIS.docx</a></td>
+  <td class="td-size">17.1 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa phd graduation/Thesis readers acceptance letter - GTPCI PhD.docx 16.2 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/phd" target="_blank">phd</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/phd/blob/main/graduation/Thesis%20readers%20acceptance%20letter%20-%20GTPCI%20PhD.docx" target="_blank">graduation/Thesis readers acceptance letter — GTPCI PhD.docx</a></td>
+  <td class="td-size">16.2 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa phd delicate/Evaluating an Information Systems Model.docx 138.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/phd" target="_blank">phd</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/phd/blob/main/delicate/Evaluating%20an%20Information%20Systems%20Model%20for%20Digitization%20Success%20in%20TVETs%20A%20Structured%20Walkthrough%20and%20Simulation%20Approach%2014th%20January%202025.docx" target="_blank">delicate/Evaluating an Information Systems Model for Digitization Success in TVETs.docx</a></td>
+  <td class="td-size">138.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author collab/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/collab/template.docx" target="_blank">collab/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author interns/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/interns/template.docx" target="_blank">interns/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author thesis/aim1/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/thesis/aim1/template.docx" target="_blank">thesis/aim1/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author thesis/aim2/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/thesis/aim2/template.docx" target="_blank">thesis/aim2/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author thesis/aim3/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/thesis/aim3/template.docx" target="_blank">thesis/aim3/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa author thesis/template.docx 213.8 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/author" target="_blank">author</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/author/blob/main/thesis/template.docx" target="_blank">thesis/template.docx</a></td>
+  <td class="td-size">213.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa dorry frppr/FRPPR-mentor.docx 51.3 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/dorry" target="_blank">dorry</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/dorry/blob/main/frppr/FRPPR-mentor.docx" target="_blank">frppr/FRPPR-mentor.docx</a></td>
+  <td class="td-size">51.3 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa surgery 2023/Faculty Annual Eval policy.docx 25.5 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/surgery" target="_blank">surgery</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/surgery/blob/main/2023/Faculty%20Annual%20Eval%20policy.docx" target="_blank">2023/Faculty Annual Eval policy.docx</a></td>
+  <td class="td-size">25.5 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa surgery 2023/My Career Plan Worksheet_Draft.docx 18.6 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/surgery" target="_blank">surgery</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/surgery/blob/main/2023/My%20Career%20Plan%20Worksheet_Draft.docx" target="_blank">2023/My Career Plan Worksheet_Draft.docx</a></td>
+  <td class="td-size">18.6 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa surgery 2025/research_faculty_resignation_checklist.docx 56.4 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/surgery" target="_blank">surgery</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/surgery/blob/main/2025/research_faculty_resignation_checklist.docx" target="_blank">2025/research_faculty_resignation_checklist.docx</a></td>
+  <td class="td-size">56.4 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era Summary.docx 21.7 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era/blob/main/Summary.docx" target="_blank">Summary.docx</a></td>
+  <td class="td-size">21.7 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era archives/rppr2020/G2 RCR_Abi.docx 14.7 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era/blob/main/archives/rppr2020/G2%20RCR_Abi.docx" target="_blank">archives/rppr2020/G2 RCR_Abi.docx</a></td>
+  <td class="td-size">14.7 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era archives/rppr2020/abi_rppr_mentor.docx 446.4 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era/blob/main/archives/rppr2020/abi_rppr_mentor.docx" target="_blank">archives/rppr2020/abi_rppr_mentor.docx</a></td>
+  <td class="td-size">446.4 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era frppr/FRPPR-mentor.docx 51.3 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era/blob/main/frppr/FRPPR-mentor.docx" target="_blank">frppr/FRPPR-mentor.docx</a></td>
+  <td class="td-size">51.3 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era frppr/Mentor_Letter_Dorry_Segev_K08_Final_RPPR_JHU_CleanedTone.docx 37.2 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era/blob/main/frppr/Mentor_Letter_Dorry_Segev_K08_Final_RPPR_JHU_CleanedTone.docx" target="_blank">frppr/Mentor_Letter_Dorry_Segev_K08_Final_RPPR_JHU_CleanedTone.docx</a></td>
+  <td class="td-size">37.2 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa amy paper/WHOLE Hospitalization_01.docx 461.1 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/amy" target="_blank">amy</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/amy/blob/main/paper/WHOLE%20Hospitalization_01.docx" target="_blank">paper/WHOLE Hospitalization_01.docx</a></td>
+  <td class="td-size">461.1 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa flow act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx 465.0 2yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/flow" target="_blank">flow</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/flow/blob/main/act0/act_0_3/act_0_3_2/WHOLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx</a></td>
+  <td class="td-size">465.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa flow act0/act_0_3/act_0_3_2/competing_risks_notes.docx 217.0 2yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/flow" target="_blank">flow</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/flow/blob/main/act0/act_0_3/act_0_3_2/competing_risks_notes.docx" target="_blank">act0/act_0_3/act_0_3_2/competing_risks_notes.docx</a></td>
+  <td class="td-size">217.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa xujun LoR/Abi-Recommendation for Xujun.docx 14.0 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/xujun" target="_blank">xujun</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/xujun/blob/main/LoR/Abi-Recommendation%20for%20Xujun.docx" target="_blank">LoR/Abi-Recommendation for Xujun.docx</a></td>
+  <td class="td-size">14.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa xujun LoR/LoR.docx 40.2 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/xujun" target="_blank">xujun</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/xujun/blob/main/LoR/LoR.docx" target="_blank">LoR/LoR.docx</a></td>
+  <td class="td-size">40.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa cv cv.docx 34.3 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/cv" target="_blank">cv</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/cv/blob/main/cv.docx" target="_blank">cv.docx</a></td>
+  <td class="td-size">34.3 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa priya priya.docx 41.2 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/priya" target="_blank">priya</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/priya/blob/main/priya.docx" target="_blank">priya.docx</a></td>
+  <td class="td-size">41.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa k08 graduation/ACCEPTABLE PhD THESIS.docx 17.1 1yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/k08" target="_blank">k08</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/k08/blob/main/graduation/ACCEPTABLE%20PhD%20THESIS.docx" target="_blank">graduation/ACCEPTABLE PhD THESIS.docx</a></td>
+  <td class="td-size">17.1 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa lor kitabo/ensi/pdfs/LoR-Kevin.docx 444.5 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/lor" target="_blank">lor</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/lor/blob/main/kitabo/ensi/pdfs/LoR-Kevin.docx" target="_blank">kitabo/ensi/pdfs/LoR-Kevin.docx</a></td>
+  <td class="td-size">444.5 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa lor kitabo/ensi/pdfs/LoR-rubric.docx 38.3 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/lor" target="_blank">lor</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/lor/blob/main/kitabo/ensi/pdfs/LoR-rubric.docx" target="_blank">kitabo/ensi/pdfs/LoR-rubric.docx</a></td>
+  <td class="td-size">38.3 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa dr-kayongo GiveDirectly Crisis Response Memo.docx 17.8 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/dr-kayongo" target="_blank">dr-kayongo</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/dr-kayongo/blob/main/GiveDirectly%20Crisis%20Response_Memo%20to%20Stakeholders_03.21.2025%20.docx" target="_blank">GiveDirectly Crisis Response_Memo to Stakeholders_03.21.2025.docx</a></td>
+  <td class="td-size">17.8 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa dr-kayongo Hiring Task 1 Response.docx 36.1 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/dr-kayongo" target="_blank">dr-kayongo</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/dr-kayongo/blob/main/Hiring%20Task%20%231_Response_03.21.2025-minimum-edits.docx" target="_blank">Hiring Task #1_Response_03.21.2025-minimum-edits.docx</a></td>
+  <td class="td-size">36.1 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa GiveDirectly kitabo/ensi/documents/Dr Sarah Kayongo Resume.docx 56.0 1yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/GiveDirectly" target="_blank">GiveDirectly</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/GiveDirectly/blob/main/kitabo/ensi/documents/Dr.%20Sarah%20Kayongo%20Resume_%2008.2024.docx" target="_blank">kitabo/ensi/documents/Dr. Sarah Kayongo Resume_08.2024.docx</a></td>
+  <td class="td-size">56.0 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa jhsph fork/gtpci/yr1term4/390.711.01 EPIC Rubric class materials 2yr public">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/jhsph" target="_blank">jhsph</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/jhsph" target="_blank">fork/gtpci/yr1term4/390.711.01/ — EPIC Rubric, Table, Figure, Limitations materials (10 files)</a></td>
+  <td class="td-size">varies</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa era rppr/B2.docx rppr/Mentor.docx K08 RPPR archive 2yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/era" target="_blank">era</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/era" target="_blank">rppr/ — B2, B4, B5, B6, Checklist, G2, Mentor, OS, Outline (9 files · K08 RPPR archive 2020–2022)</a></td>
+  <td class="td-size">varies</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="abikesa" data-vis="private" data-raw="abikesa bcmodel ds4ph.syllabus.docx 41.6 3yr private">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><a href="https://github.com/abikesa/bcmodel" target="_blank">bcmodel</a></td>
+  <td class="td-file"><a href="https://github.com/abikesa/bcmodel/blob/main/ds4ph.syllabus.docx" target="_blank">ds4ph.syllabus.docx</a></td>
+  <td class="td-size">41.6 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<!-- Many abikesa repos contain mirrored ukubona_offer.docx / eco-green duplicates across 60+ repos -->
+<tr data-account="abikesa" data-vis="public" data-raw="abikesa [60+ repos] kitabo/ensi/pdfs/ukubona_offer.docx ~1528 1yr public mirrored">
+  <td class="td-account">abikesa</td>
+  <td class="td-repo"><span style="color:var(--dim)">60+ mirrored repos</span></td>
+  <td class="td-file"><span style="color:var(--dim)">kitabo/ensi/pdfs/ukubona_offer.docx &amp; eco-green-l/p.docx — propagated across dummy, simulacrum, shell-hologram, hologram, phantom, false-font, mole, provocateur, plant, stooge, shill, pretense, blind, smoke-screen, red-herring, ruse, feint, diversion, draw, enticement, ambush, trap, snare, lure, bait, decoy, screwdriver, ship, sea, diagnosis, genealogy, template, futures, birthday-special, resonate, gtpci-forum, jpi, cg-best, anarchist, pip, forum, time, review, wisdom, vertigo, tradition, ethics, credo, social, html, dag, academia, elonmusk, success, zuckerberg, three, lor, progress, artists, speed, dreams, princeton, jamiedimon, life-raft, elections, pain, misc, society, whatisaman, riddle, eco-green, gpt-memory, dailygrind …</span></td>
+  <td class="td-size">~1,528 KB</td>
+  <td class="td-age">1yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     4. muzaale  (56 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="muzaale" data-vis="public" data-raw="muzaale meta-analysis ukhona/Obesity LKD manuscript_Annals_1-24-26.docx 6263.6 4mo public">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/meta-analysis" target="_blank">meta-analysis</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/meta-analysis/blob/ukhona/ukhona/Obesity%20LKD%20manuscript_Annals_1-24-26.docx" target="_blank">ukhona/Obesity LKD manuscript_Annals_1-24-26.docx</a></td>
+  <td class="td-size">6,263.6 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="public" data-raw="muzaale flow act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx 465.0 2yr public">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/flow" target="_blank">flow</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/flow/blob/main/act0/act_0_3/act_0_3_2/WHOLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx</a></td>
+  <td class="td-size">465.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="public" data-raw="muzaale flow competing_risks_notes.docx 217.0 2yr public">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/flow" target="_blank">flow</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/flow/blob/main/act0/act_0_3/act_0_3_2/competing_risks_notes.docx" target="_blank">act0/act_0_3/act_0_3_2/competing_risks_notes.docx</a></td>
+  <td class="td-size">217.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale kevin Master's Resume.docx 25.7 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/kevin" target="_blank">kevin</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/kevin/blob/main/Master%27s%20Resume.docx" target="_blank">Master's Resume.docx</a></td>
+  <td class="td-size">25.7 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale kevin UNCC Statement of Purpose.docx 14.8 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/kevin" target="_blank">kevin</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/kevin/blob/main/UNCC%20Statement%20of%20Purpose.docx" target="_blank">UNCC Statement of Purpose.docx</a></td>
+  <td class="td-size">14.8 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary UCI ACKNOWLEDGEMENTS.docx 13.8 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/UCI" target="_blank">fawazalammary/UCI</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/UCI/blob/main/ACKNOWLEDGEMENTS.docx" target="_blank">ACKNOWLEDGEMENTS.docx</a></td>
+  <td class="td-size">13.8 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary UCI ATC2024 LKD trends seasons_abstract.docx 329.5 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/UCI" target="_blank">fawazalammary/UCI</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/UCI/blob/main/ATC2024/seasons_abstract.docx" target="_blank">ATC2024/seasons_abstract.docx</a></td>
+  <td class="td-size">329.5 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary UCI Writing LKD trend 2017-2022 LKD17to22 draft v10.docx 802.0 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/UCI" target="_blank">fawazalammary/UCI</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/UCI/blob/main/Writing/LKD%20trend%202017-2022/LKD17to22%20draft%20v10.docx" target="_blank">Writing/LKD trend 2017-2022/LKD17to22 draft v10.docx</a></td>
+  <td class="td-size">802.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary UCI Writing LLD 2012-2022 AlAmmary Living liver donation US.docx 660.5 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/UCI" target="_blank">fawazalammary/UCI</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/UCI/blob/main/Writing/LLD%202012-2022%20project/AlAmmary_Living%20liver%20donation%20in%20the%20US%20manuscript.docx" target="_blank">Writing/LLD 2012-2022/AlAmmary_Living liver donation in the US manuscript.docx</a></td>
+  <td class="td-size">660.5 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary UCI Research letter RESEARCH LETTER _JAMA.docx 296.8 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/UCI" target="_blank">fawazalammary/UCI</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/UCI/blob/main/Writing/Research%20letter%20LKD/RESEARCH%20LETTER%20_JAMA.docx" target="_blank">Writing/Research letter LKD/RESEARCH LETTER _JAMA.docx</a></td>
+  <td class="td-size">296.8 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale fawazalammary older_gfr manuscript/gfr_elderly.docx 121.6 2yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/fawazalammary/older_gfr" target="_blank">fawazalammary/older_gfr</a></td>
+  <td class="td-file"><a href="https://github.com/fawazalammary/older_gfr/blob/main/manuscript/gfr_elderly.docx" target="_blank">manuscript/gfr_elderly.docx</a></td>
+  <td class="td-size">121.6 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="muzaale" data-vis="private" data-raw="muzaale bcmodel ds4ph.syllabus.docx 41.6 3yr private">
+  <td class="td-account">muzaale</td>
+  <td class="td-repo"><a href="https://github.com/muzaale/bcmodel" target="_blank">bcmodel</a></td>
+  <td class="td-file"><a href="https://github.com/muzaale/bcmodel/blob/main/ds4ph.syllabus.docx" target="_blank">ds4ph.syllabus.docx</a></td>
+  <td class="td-size">41.6 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     5. jhustata  (2 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="jhustata" data-vis="public" data-raw="jhustata book hw.rubrics.docx 26.7 3yr public">
+  <td class="td-account">jhustata</td>
+  <td class="td-repo"><a href="https://github.com/jhustata/book" target="_blank">book</a></td>
+  <td class="td-file"><a href="https://github.com/jhustata/book/blob/main/hw.rubrics.docx" target="_blank">hw.rubrics.docx</a></td>
+  <td class="td-size">26.7 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhustata" data-vis="public" data-raw="jhustata book ~$b1_2021_noanswers.docx 0.2 3yr public">
+  <td class="td-account">jhustata</td>
+  <td class="td-repo"><a href="https://github.com/jhustata/book" target="_blank">book</a></td>
+  <td class="td-file"><a href="https://github.com/jhustata/book/blob/main/~%24b1_2021_noanswers.docx" target="_blank">~$b1_2021_noanswers.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     6. pairs-jh  (3 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="pairs-jh" data-vis="public" data-raw="pairs-jh criteria PIM Classes and Mortality_Edit_DAA_1.17.23.docx 93.9 3yr public">
+  <td class="td-account">pairs-jh</td>
+  <td class="td-repo"><a href="https://github.com/pairs-jh/criteria" target="_blank">criteria</a></td>
+  <td class="td-file"><a href="https://github.com/pairs-jh/criteria/blob/main/PIM%20Classes%20and%20Mortality_Edit_DAA_1.17.23.docx" target="_blank">PIM Classes and Mortality_Edit_DAA_1.17.23.docx</a></td>
+  <td class="td-size">93.9 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="pairs-jh" data-vis="public" data-raw="pairs-jh criteria Supplemental Material 1.17.23.docx 47.9 3yr public">
+  <td class="td-account">pairs-jh</td>
+  <td class="td-repo"><a href="https://github.com/pairs-jh/criteria" target="_blank">criteria</a></td>
+  <td class="td-file"><a href="https://github.com/pairs-jh/criteria/blob/main/Supplemental%20Material%201.17.23.docx" target="_blank">Supplemental Material 1.17.23.docx</a></td>
+  <td class="td-size">47.9 KB</td>
+  <td class="td-age">3yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="pairs-jh" data-vis="public" data-raw="pairs-jh beta act_0/act_0_2/act_0_2_1/seasons.docx 1207.7 2yr public">
+  <td class="td-account">pairs-jh</td>
+  <td class="td-repo"><a href="https://github.com/pairs-jh/beta" target="_blank">beta</a></td>
+  <td class="td-file"><a href="https://github.com/pairs-jh/beta/blob/main/act_0/act_0_2/act_0_2_1/seasons.docx" target="_blank">act_0/act_0_2/act_0_2_1/seasons.docx</a></td>
+  <td class="td-size">1,207.7 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     7. jhufena  (6 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena ucu ukhona/Welcome to Ubuntu 21.docx 60.3 4mo public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/ucu" target="_blank">ucu</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/ucu/blob/ukhona/ukhona/Welcome%20to%20Ubuntu%2021.docx" target="_blank">ukhona/Welcome to Ubuntu 21.docx</a></td>
+  <td class="td-size">60.3 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena ucu ukhona/Welcome to Ubuntu 22.docx 33.8 4mo public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/ucu" target="_blank">ucu</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/ucu/blob/ukhona/ukhona/Welcome%20to%20Ubuntu%2022.docx" target="_blank">ukhona/Welcome to Ubuntu 22.docx</a></td>
+  <td class="td-size">33.8 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena home act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx 465.0 2yr public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/home/blob/main/act0/act_0_3/act_0_3_2/WHOLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/WHOLE Hospitalization_01.docx</a></td>
+  <td class="td-size">465.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena home competing_risks_notes.docx 217.0 2yr public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/home/blob/main/act0/act_0_3/act_0_3_2/competing_risks_notes.docx" target="_blank">act0/act_0_3/act_0_3_2/competing_risks_notes.docx</a></td>
+  <td class="td-size">217.0 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena home ~$OLE Hospitalization_01.docx 0.2 2yr public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/home/blob/main/act0/act_0_3/act_0_3_2/~%24OLE%20Hospitalization_01.docx" target="_blank">act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="jhufena" data-vis="public" data-raw="jhufena home ~$OLE Hospitalization_01_MGB.docx 0.2 2yr public">
+  <td class="td-account">jhufena</td>
+  <td class="td-repo"><a href="https://github.com/jhufena/home" target="_blank">home</a></td>
+  <td class="td-file"><a href="https://github.com/jhufena/home/blob/main/act0/act_0_3/act_0_3_2/~%24OLE%20Hospitalization_01_MGB.docx" target="_blank">act0/act_0_3/act_0_3_2/~$OLE Hospitalization_01_MGB.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">2yr ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     8. eplnm  (2 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="eplnm" data-vis="public" data-raw="eplnm sham ukhona/Welcome to Ubuntu 21.docx 60.3 4mo public">
+  <td class="td-account">eplnm</td>
+  <td class="td-repo"><a href="https://github.com/eplnm/sham" target="_blank">sham</a></td>
+  <td class="td-file"><a href="https://github.com/eplnm/sham/blob/ukhona/ukhona/Welcome%20to%20Ubuntu%2021.docx" target="_blank">ukhona/Welcome to Ubuntu 21.docx</a></td>
+  <td class="td-size">60.3 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="eplnm" data-vis="public" data-raw="eplnm sham ukhona/Welcome to Ubuntu 22.docx 33.8 4mo public">
+  <td class="td-account">eplnm</td>
+  <td class="td-repo"><a href="https://github.com/eplnm/sham" target="_blank">sham</a></td>
+  <td class="td-file"><a href="https://github.com/eplnm/sham/blob/ukhona/ukhona/Welcome%20to%20Ubuntu%2022.docx" target="_blank">ukhona/Welcome to Ubuntu 22.docx</a></td>
+  <td class="td-size">33.8 KB</td>
+  <td class="td-age">4mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     9. ukb-pyro  (6 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="ukb-pyro" data-vis="private" data-raw="ukb-pyro mort-90d-gpt-5 paper/periop_mortality.docx 59.3 9mo private">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5" target="_blank">mort-90d-gpt-5</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5/blob/main/paper/periop_mortality.docx" target="_blank">paper/periop_mortality.docx</a></td>
+  <td class="td-size">59.3 KB</td>
+  <td class="td-age">9mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukb-pyro" data-vis="private" data-raw="ukb-pyro mort-90d-gpt-5 paper/periop_mortality_intro_method_VJ.docx 219.2 10mo private">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5" target="_blank">mort-90d-gpt-5</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5/blob/main/paper/periop_mortality_intro_method_VJ.docx" target="_blank">paper/periop_mortality_intro_method_VJ.docx</a></td>
+  <td class="td-size">219.2 KB</td>
+  <td class="td-age">10mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukb-pyro" data-vis="private" data-raw="ukb-pyro mort-90d-gpt-5 paper/template.docx 212.9 10mo private">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5" target="_blank">mort-90d-gpt-5</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/mort-90d-gpt-5/blob/main/paper/template.docx" target="_blank">paper/template.docx</a></td>
+  <td class="td-size">212.9 KB</td>
+  <td class="td-age">10mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukb-pyro" data-vis="public" data-raw="ukb-pyro ed tests/integration/edward_i983_draft.docx 37.4 10mo public">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/ed" target="_blank">ed</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/ed/blob/main/tests/integration/edward_i983_draft.docx" target="_blank">tests/integration/edward_i983_draft.docx</a></td>
+  <td class="td-size">37.4 KB</td>
+  <td class="td-age">10mo ago</td>
+  <td><span class="vis-badge vis-pub">public</span></td>
+</tr>
+
+<tr data-account="ukb-pyro" data-vis="private" data-raw="ukb-pyro template template.docx 212.9 10mo private">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/template" target="_blank">template</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/template/blob/main/template.docx" target="_blank">template.docx</a></td>
+  <td class="td-size">212.9 KB</td>
+  <td class="td-age">10mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukb-pyro" data-vis="private" data-raw="ukb-pyro msnd flow/downloads/~$tputs and Activities.docx 0.2 11mo private">
+  <td class="td-account">ukb-pyro</td>
+  <td class="td-repo"><a href="https://github.com/ukb-pyro/msnd" target="_blank">msnd</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-pyro/msnd/blob/sawubona-ngikhona/flow/downloads/~%24tputs%20and%20Activities.docx" target="_blank">flow/downloads/~$tputs and Activities.docx</a></td>
+  <td class="td-size">0.2 KB</td>
+  <td class="td-age">11mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     10. cryo-pyro  (0 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="cryo-pyro" data-vis="public" data-raw="cryo-pyro — no docx files found 0 —">
+  <td class="td-account">cryo-pyro</td>
+  <td class="td-repo"><span style="color:var(--dim)">—</span></td>
+  <td class="td-file"><span style="color:var(--dim);font-style:italic">No .docx files found across 55 repos</span></td>
+  <td class="td-size">—</td>
+  <td class="td-age">—</td>
+  <td><span class="vis-badge" style="background:var(--ink3);border:1px solid var(--rim);color:var(--dim)">—</span></td>
+</tr>
+
+<!-- ══════════════════════════════════════════
+     11. ukb-dt  (2 files)
+══════════════════════════════════════════ -->
+
+<tr data-account="ukb-dt" data-vis="private" data-raw="ukb-dt vj cv/LoR-Kevin.docx 444.2 6mo private">
+  <td class="td-account">ukb-dt</td>
+  <td class="td-repo"><a href="https://github.com/ukb-dt/vj" target="_blank">vj</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-dt/vj/blob/main/cv/LoR-Kevin.docx" target="_blank">cv/LoR-Kevin.docx</a></td>
+  <td class="td-size">444.2 KB</td>
+  <td class="td-age">6mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+<tr data-account="ukb-dt" data-vis="private" data-raw="ukb-dt vj cv/LoR-Vince.docx 445.7 6mo private">
+  <td class="td-account">ukb-dt</td>
+  <td class="td-repo"><a href="https://github.com/ukb-dt/vj" target="_blank">vj</a></td>
+  <td class="td-file"><a href="https://github.com/ukb-dt/vj/blob/main/cv/LoR-Vince.docx" target="_blank">cv/LoR-Vince.docx</a></td>
+  <td class="td-size">445.7 KB</td>
+  <td class="td-age">6mo ago</td>
+  <td><span class="vis-badge vis-priv">private</span></td>
+</tr>
+
+    </tbody>
+  </table>
+
+  <div class="empty-state" id="empty-state" style="display:none">
+    <span>⌕</span>
+    No rows match your query. Try a different search term or clear the filters.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-mark">
+      <div>Ukubona LLC — <span>DOCX Ledger · All GitHub Accounts · 23 Jun 2026</span></div>
+      <div style="margin-top:3px;font-size:.52rem;">State<sub>t</sub> = Σ Event<sub>i</sub> · Kampala · Sequential · Non-lossy · Nothing overwritten</div>
+      <div style="margin-top:4px;font-size:.52rem;">okubonabona → kubona → ivyabona → ukubona → sawubona → ngikhona</div>
+      <div style="margin-top:8px;font-size:.52rem;">Scanned: ukubona-llc (527 repos · 24 files) · jhurepos (51 repos · 27 files) · abikesa (668 files) · muzaale (59 repos · 56 files) · jhustata (46 repos · 2 files) · pairs-jh (15 repos · 3 files) · jhufena (12 repos · 6 files) · eplnm (55 repos · 2 files) · ukb-pyro (298 repos · 6 files) · cryo-pyro (55 repos · 0 files) · ukb-dt (719 repos · 2 files)</div>
+    </div>
+    <div class="footer-legend">
+      <div class="leg-item"><span class="leg-dot" style="background:var(--violet)"></span>ukubona-llc</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--gold)"></span>jhurepos</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--coral)"></span>abikesa</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--teal)"></span>muzaale</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--sage)"></span>jhustata</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--amber)"></span>pairs-jh</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--slate)"></span>jhufena</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--fern)"></span>eplnm</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--mauve)"></span>ukb-pyro</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--cyan)"></span>cryo-pyro</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--rose)"></span>ukb-dt</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ── THEME ── */
+  var html = document.documentElement;
+  var btn  = document.getElementById('theme-btn');
+  var curr = 'dark';
+  function applyTheme(t){
+    curr = t;
+    html.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? 'light' : 'dark';
+  }
+  btn.addEventListener('click', function(){ applyTheme(curr === 'dark' ? 'light' : 'dark'); });
+  applyTheme('dark');
+
+  /* ── DATA ── */
+  var tbody  = document.getElementById('ledger-body');
+  var rows   = Array.from(tbody.querySelectorAll('tr'));
+  var search = document.getElementById('search');
+  var count  = document.getElementById('results-count');
+  var empty  = document.getElementById('empty-state');
+  var activeAccount = 'all';
+  var activeVis     = 'all';
+
+  function normalize(s){ return s.toLowerCase().replace(/\s+/g,' '); }
+
+  function update(){
+    var q = normalize(search.value.trim());
+    var shown = 0;
+    rows.forEach(function(r){
+      var acct = r.getAttribute('data-account') || '';
+      var vis  = r.getAttribute('data-vis') || '';
+      var raw  = normalize(r.getAttribute('data-raw') || '');
+      var text = normalize(r.textContent);
+
+      var matchAccount = (activeAccount === 'all') || (acct === activeAccount);
+      var matchVis     = (activeVis === 'all') || (vis === activeVis);
+      var matchQuery   = !q || (raw+' '+text).indexOf(q) !== -1;
+
+      if(matchAccount && matchVis && matchQuery){
+        r.classList.remove('hidden');
+        shown++;
+      } else {
+        r.classList.add('hidden');
+      }
+    });
+    count.textContent = shown + ' / ' + rows.length + ' rows';
+    empty.style.display = shown === 0 ? 'block' : 'none';
+  }
+
+  search.addEventListener('input', update);
+
+  /* ── FILTERS ── */
+  document.querySelectorAll('.filter-btn[data-account]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.filter-btn[data-account]').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      activeAccount = b.getAttribute('data-account');
+      update();
+    });
+  });
+
+  document.querySelectorAll('.filter-btn[data-vis]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.filter-btn[data-vis]').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      activeVis = b.getAttribute('data-vis');
+      update();
+    });
+  });
+
+  /* ── SORT ── */
+  var sortCol = null;
+  var sortDir = 1;
+  var colIndex = {account:0, repo:1, file:2, size:3, age:4, vis:5};
+
+  document.querySelectorAll('thead th[data-col]').forEach(function(th){
+    th.addEventListener('click', function(){
+      var col = th.getAttribute('data-col');
+      document.querySelectorAll('thead th').forEach(function(x){ x.classList.remove('sorted'); x.querySelector('.sort-icon').textContent = '↕'; });
+      if(sortCol === col){ sortDir *= -1; } else { sortCol = col; sortDir = 1; }
+      th.classList.add('sorted');
+      th.querySelector('.sort-icon').textContent = sortDir === 1 ? '↑' : '↓';
+
+      var idx = colIndex[col];
+      var sorted = rows.slice().sort(function(a,b){
+        var at = a.cells[idx] ? a.cells[idx].textContent.trim() : '';
+        var bt = b.cells[idx] ? b.cells[idx].textContent.trim() : '';
+        if(col === 'size'){
+          at = parseFloat(at.replace(/,/g,'')) || 0;
+          bt = parseFloat(bt.replace(/,/g,'')) || 0;
+          return (at - bt) * sortDir;
+        }
+        return at.localeCompare(bt) * sortDir;
+      });
+      sorted.forEach(function(r){ tbody.appendChild(r); });
+      update();
+    });
+  });
+
+  /* initial count */
+  update();
+})();
+</script>
+</body>
+</html>
