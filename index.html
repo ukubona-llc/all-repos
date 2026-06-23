@@ -33469,12 +33469,13 @@ function calculateTimeAgo(dateString) {
   return "Just now";
 }
 
-function renderStats() {
-  const total = allRepos.length;
-  const privateCount = allRepos.filter(r => r.private).length;
+// We add 'data' inside the parentheses so it knows what to calculate
+function renderStats(data) {
+  const total = data.length;
+  const privateCount = data.filter(r => r.private).length;
   const publicCount = total - privateCount;
-  const forks = allRepos.filter(r => r.is_fork).length;
-  const totalMb = (allRepos.reduce((sum, r) => sum + (r.size_kb || 0), 0) / 1024).toFixed(1);
+  const forks = data.filter(r => r.is_fork).length;
+  const totalMb = (data.reduce((sum, r) => sum + (r.size_kb || 0), 0) / 1024).toFixed(1);
 
   document.getElementById('global-stats').innerHTML = `
     <span class="stat-chip">Total Repos: <strong>${total}</strong></span>
@@ -33519,6 +33520,9 @@ function renderTable() {
       (r.name + ' ' + r.account + ' ' + (r.language || '')).toLowerCase().includes(currentSearch);
     return matchAcct && matchQuery;
   });
+
+  // ADD THIS NEW LINE RIGHT HERE:
+  renderStats(data);
 
   // 2. Sort
   data.sort((a, b) => {
@@ -33579,9 +33583,8 @@ document.querySelectorAll('th[data-sort]').forEach(th => {
 });
 
 // Boot the app
-renderStats();
 renderFilters();
-renderTable();
+renderTable(); // renderTable will now automatically call renderStats with the right data!
 
 </script>
 </body>
