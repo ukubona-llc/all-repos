@@ -132,4 +132,4 @@ with open(output_file, "w") as f:
 print(f"\n\033[32m\033[1mSuccess!\033[0m Scanned {total_repos} total repos.")
 print(f"The compressed dictionary has been saved to: \033[36m{output_file}\033[0m")
 print("You can copy the contents of that file directly into the 'rawRepos' variable in your HTML artifact.")
-PYEOF
+PYEOF      
