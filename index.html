@@ -33539,7 +33539,7 @@ function renderTable() {
     return (valA - valB) * currentSort.dir;
   });
 
-  // 3. Render HTML
+// 3. Render HTML
   data.forEach(r => {
     const isPriv = r.private ? '<span class="badge badge-priv">Private</span>' : '<span class="badge badge-pub">Public</span>';
     const isFork = r.is_fork ? '<span class="badge badge-fork">Fork</span>' : '';
@@ -33547,10 +33547,15 @@ function renderTable() {
     const size = r.size_kb ? r.size_kb.toLocaleString() : '0';
     const age = calculateTimeAgo(r.last_pushed);
 
+    // NEW: Determine the correct URL based on visibility
+    const repoUrl = r.private 
+      ? `https://github.com/${r.account}/${r.name}` 
+      : `https://${r.account}.github.io/${r.name}`;
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="color:var(--white);">${r.account}</td>
-      <td><a href="https://github.com/${r.account}/${r.name}" target="_blank">${r.name}</a> ${isFork}</td>
+      <td><a href="${repoUrl}" target="_blank">${r.name}</a> ${isFork}</td>
       <td>${lang}</td>
       <td style="text-align:right;" class="dim">${size}</td>
       <td class="dim" title="${r.last_pushed}">${age}</td>
