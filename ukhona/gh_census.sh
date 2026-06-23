@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# gh_census.sh — Scan 11 specific GitHub accounts for all repos and DOCX hits
+# gh_census.sh — Ecosystem Census for 11 GitHub accounts
 set -euo pipefail
 
 BOLD="\033[1m"; RESET="\033[0m"; CYAN="\033[36m"; DIM="\033[2m"; GREEN="\033[32m"
@@ -33,11 +33,12 @@ for idx in "${!ACCOUNTS[@]}"; do
 done
 echo "}" >> "$SECRETS_FILE"
 
-echo -e "\n${DIM}Starting census scan. This will take a few minutes...${RESET}\n"
+echo -e "\n${DIM}Starting census scan...${RESET}\n"
 
-# Python engine handles pagination, tree fetching, and formatting the final output
+# Python engine handles pagination, fetching, and aggregating ecosystem stats
 python3 - "$SECRETS_FILE" <<'PYEOF'
-import sys, json, time, urllib.request, urllib.error, urllib.parse
+import sys, json, time, urllib.request, urllib.error
+from collections import Counter
 
 secrets_path = sys.argv[1]
 with open(secrets_path) as f:
@@ -71,7 +72,7 @@ def api_get(url, token, retries=3):
     return None
 
 final_ledger = {}
-total_repos = 0
+total_repos_across_orgs = 0
 
 for acct, token in accounts.items():
     print(f"\033[1mScanning {acct}...\033[0m")
@@ -88,10 +89,9 @@ for acct, token in accounts.items():
             batch = api_get(url, token)
             if not batch: break
             
-            # If using a PAT, the API returns ALL repos the token can see. 
-            # We must filter to only keep the ones explicitly owned by 'acct'
+            # Filter to explicit ownership
             batch = [r for r in batch if r["owner"]["login"].lower() == acct.lower()]
-            if not batch and token: # Reached the end of relevant repos
+            if not batch and token: 
                 break
                 
             all_repos.extend(batch)
@@ -100,36 +100,47 @@ for acct, token in accounts.items():
             print(f"  Error fetching repos for {acct}: {e}")
             break
 
-    print(f"  Found {len(all_repos)} repos. Checking trees...")
-    total_repos += len(all_repos)
+    total_repos_across_orgs += len(all_repos)
+    
+    # Process Census Statistics
     acct_results = []
+    priv_count = 0
+    pub_count = 0
+    languages = Counter()
 
-    for idx, repo in enumerate(all_repos):
-        repo_name = repo["name"]
-        default_br = repo.get("default_branch", "main")
+    for repo in all_repos:
+        is_priv = repo.get("private", False)
+        if is_priv: priv_count += 1
+        else: pub_count += 1
         
-        # Fetch the git tree
-        tree_url = f"https://api.github.com/repos/{acct}/{repo_name}/git/trees/{urllib.parse.quote(default_br)}?recursive=1"
-        tree_data = api_get(tree_url, token)
+        lang = repo.get("language")
+        if lang: languages[lang] += 1
 
-        if tree_data is None or "tree" not in tree_data:
-            acct_results.append(f"{repo_name}:S") # S = Skipped / Empty
-        else:
-            docx_count = sum(1 for i in tree_data["tree"] if i.get("type") == "blob" and i.get("path", "").lower().endswith(".docx"))
-            acct_results.append(f"{repo_name}:{docx_count}")
-        
-        if (idx + 1) % 50 == 0:
-            print(f"    ... {idx + 1}/{len(all_repos)} processed")
+        acct_results.append({
+            "name": repo["name"],
+            "private": is_priv,
+            "is_fork": repo.get("fork", False),
+            "created_at": repo.get("created_at"),
+            "last_pushed": repo.get("pushed_at"),
+            "language": lang,
+            "stars": repo.get("stargazers_count", 0),
+            "size_kb": repo.get("size", 0),
+            "open_issues": repo.get("open_issues_count", 0)
+        })
 
-    # Combine into the compressed string format
-    final_ledger[acct] = ",".join(acct_results)
+    # Sort array by last active date
+    acct_results.sort(key=lambda x: x["last_pushed"] or "", reverse=True)
+    final_ledger[acct] = acct_results
 
-# Write out the exact JS object needed for the HTML file
-output_file = "/tmp/repo_ledger_data.json"
+    # Print summary to terminal
+    top_lang = languages.most_common(1)[0][0] if languages else "None"
+    print(f"  ↳ Repos: \033[36m{len(all_repos)}\033[0m | Public: {pub_count} | Private: {priv_count} | Top Lang: {top_lang}")
+
+# Write out the deep JSON artifact
+output_file = "/tmp/github_ecosystem_census.json"
 with open(output_file, "w") as f:
     json.dump(final_ledger, f, indent=2)
 
-print(f"\n\033[32m\033[1mSuccess!\033[0m Scanned {total_repos} total repos.")
-print(f"The compressed dictionary has been saved to: \033[36m{output_file}\033[0m")
-print("You can copy the contents of that file directly into the 'rawRepos' variable in your HTML artifact.")
-PYEOF      
+print(f"\n\033[32m\033[1mSuccess!\033[0m Scanned {total_repos_across_orgs} total repos.")
+print(f"The detailed JSON census has been saved to: \033[36m{output_file}\033[0m")
+PYEOF
